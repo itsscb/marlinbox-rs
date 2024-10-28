@@ -49,11 +49,16 @@ pub fn read(vid: u16, pid: u16, tx: &Sender<Arc<str>>) -> Result<(), Error> {
     handle.claim_interface(0)?;
 
     let mut buf = [0; 128];
+    let mut last_scan = std::time::Instant::now();
     loop {
         match handle.read_interrupt(0x81, &mut buf, Duration::from_secs(1)) {
             Ok(_) => {
                 if let Some(card_id) = extract_card_id(&buf) {
+                    if last_scan.elapsed() < Duration::from_secs(2) {
+                        continue;
+                    }
                     tx.send(Arc::from(card_id)).map_err(Error::Send)?;
+                    last_scan = std::time::Instant::now();
                 }
             }
             Err(rusb::Error::Timeout) => (),
