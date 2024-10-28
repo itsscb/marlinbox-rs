@@ -76,6 +76,9 @@ pub fn run(rx: &Receiver<Arc<str>>, library: &Arc<Mutex<Library>>) -> Result<(),
                             toggle_hotspot(!hotspot_enabled)?;
                             hotspot_enabled = !hotspot_enabled;
                         }
+                        // TODO: Volume management. Currently the volume is set independetly from the OS which leads to a horrible quality decrease.
+                        Card::VolumeUp => sink.set_volume(sink.volume() + 1.0),
+                        Card::VolumeDown => sink.set_volume(sink.volume() - 1.0),
                     }
                 } else {
                     println!("No music file found for this card");

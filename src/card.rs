@@ -10,6 +10,8 @@ pub enum Card {
     Next,
     Previous,
     Shuffle,
+    VolumeUp,
+    VolumeDown,
     ToggleHotspot,
 }
 
