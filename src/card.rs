@@ -10,6 +10,7 @@ pub enum Card {
     Next,
     Previous,
     Shuffle,
+    ToggleHotspot,
 }
 
 impl From<&Card> for Option<Card> {
