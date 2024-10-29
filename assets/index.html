@@ -1,0 +1,93 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marlinbox</title>
+    <link rel="stylesheet" href="assets/styles.css">
+
+    <script>
+        async function sendPairRequest() {
+            try {
+                const response = await fetch('/pair');
+                const data = await response.text();
+                showToast(data);
+            } catch (error) {
+                showToast('An error occurred');
+            }
+        }
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '15%';
+            toast.classList = 'text-3xl font-bold uppercase bg-green-300 text-white rounded-xl p-x-2 p-y-4 md:w-[25%] w-[60%] text-center transform transition-transform duration-500 ease-in-out translate-y-full opacity-0';
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-full', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+            }, 100); // Slight delay to trigger the transition
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-full', 'opacity-0');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 500); // Wait for the transition to complete before removing
+            }, 5000);
+        }
+
+
+        // document.getElementById('card-add').addEventListener('click', sendPairRequest);
+    </script>
+</head>
+
+
+<body>
+    <div class="flex flex-col items-center gap-y-12 md:gap-y-24">
+        <div></div>
+        <section class="flex flex-col gap-y-2 text-center">
+            <h1 class="text-4xl md:text-7xl font-bold uppercase tracking-widest">Marlinbox</h1>
+            <p class="text-xl md:text-3xl">The Open Source Music Box</p>
+        </section>
+        <section class="flex flex-row justify-between md:justify-evenly md:gap-x-20 w-[65%] md:w-[35%]">
+            <div class="flex flex-col justify-center gap-y-6 md:gap-y-20">
+                <button id="vol-up"
+                    class="text-xl md:text-3xl font-bold uppercase bg-cyan-300 text-white rounded-xl p-2 w-16 md:w-28 flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+                        <path
+                            d="M560-131v-82q90-26 145-100t55-168q0-94-55-168T560-749v-82q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm440 40v-322q47 22 73.5 66t26.5 96q0 51-26.5 94.5T560-320ZM400-606l-86 86H200v80h114l86 86v-252ZM300-480Z" />
+                    </svg>
+                </button>
+                <button id="vol-down"
+                    class="text-xl md:text-3xl font-bold uppercase bg-cyan-300 text-white rounded-xl p-2 w-16 md:w-28 flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+                        <path
+                            d="M200-360v-240h160l200-200v640L360-360H200Zm440 40v-322q45 21 72.5 65t27.5 97q0 53-27.5 96T640-320ZM480-606l-86 86H280v80h114l86 86v-252ZM380-480Z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-col justify-center gap-y-6 md:gap-y-20">
+                <button id="card-add"
+                    class="text-xl md:text-3xl font-bold uppercase bg-cyan-300 text-white rounded-xl p-2 w-16 md:w-28 flex flex-col items-center"
+                    onclick="sendPairRequest()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+                        <path
+                            d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v240H160v240h400v80H160Zm0-480h640v-80H160v80ZM760-80v-120H640v-80h120v-120h80v120h120v80H840v120h-80ZM160-240v-480 480Z" />
+                    </svg>
+                </button>
+                <button id="card-manage"
+                    class="text-xl md:text-3xl font-bold uppercase bg-cyan-300 text-white rounded-xl p-2 w-16 md:w-28 flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+                        <path
+                            d="M160-240v-320 13-173 480Zm0-400h640v-80H160v80Zm303 480H160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v213q-35-25-76.5-39T716-560q-57 0-107.5 21.5T520-480H160v240h279q3 21 9 41t15 39Zm213 80-12-60q-12-5-22.5-10.5T620-164l-58 18-40-68 46-40q-2-13-2-26t2-26l-46-40 40-68 58 18q11-8 21.5-13.5T664-420l12-60h80l12 60q12 5 22.5 10.5T812-396l58-18 40 68-46 40q2 13 2 26t-2 26l46 40-40 68-58-18q-11 8-21.5 13.5T768-140l-12 60h-80Zm40-120q33 0 56.5-23.5T796-280q0-33-23.5-56.5T716-360q-33 0-56.5 23.5T636-280q0 33 23.5 56.5T716-200Z" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </div>
+
+</body>
+
+</html>

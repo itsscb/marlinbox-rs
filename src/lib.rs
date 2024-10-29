@@ -1,6 +1,7 @@
 pub mod card;
 pub mod card_reader;
 pub mod error;
-pub mod library;
-pub mod portal;
+mod library;
+pub mod manager;
 pub mod service;
+pub use library::Library;
