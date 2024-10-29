@@ -2,6 +2,7 @@ use std::{sync::Arc, time::Duration};
 
 use crossbeam_channel::Sender;
 use rusb::UsbContext;
+use tracing::{debug, error};
 
 use crate::error::Error;
 
@@ -50,6 +51,7 @@ pub fn read(vid: u16, pid: u16, tx: &Sender<Arc<str>>) -> Result<(), Error> {
 
     let mut buf = [0; 128];
     let mut last_scan = std::time::Instant::now();
+    debug!("Card reader ready");
     loop {
         match handle.read_interrupt(0x81, &mut buf, Duration::from_secs(1)) {
             Ok(_) => {
@@ -62,7 +64,7 @@ pub fn read(vid: u16, pid: u16, tx: &Sender<Arc<str>>) -> Result<(), Error> {
                 }
             }
             Err(rusb::Error::Timeout) => (),
-            Err(e) => eprintln!("Error: {e}"),
+            Err(e) => error!("Error: {e}"),
         }
     }
 }
