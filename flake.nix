@@ -16,16 +16,16 @@
         };
         rustToolchain = pkgs.rust-bin.stable.latest.default.override {
           extensions = [ "rust-src" "rust-analyzer" "clippy" "rustfmt" ];
-          targets = [ "x86_64-unknown-linux-gnu" "wasm32-unknown-unknown" ];
+          targets = [ "x86_64-unknown-linux-gnu" ];
         };
       in
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             rustToolchain
-            trunk
+            # trunk
             clippy
-            # tailwindcss
+            tailwindcss
 
             # dioxus-cli
             # wasm-bindgen-cli
