@@ -29,7 +29,7 @@ impl Library {
     ///
     /// Returns an `Error` if there was an error writing the library to the file.
     pub fn save_to_file<P: AsRef<str>>(&self, file_path: P) -> Result<(), Error> {
-        let serialized = serde_json::to_string(self)?;
+        let serialized = serde_json::to_string_pretty(self)?;
         let mut file = File::create(file_path.as_ref())?;
         file.write_all(serialized.as_bytes())?;
         Ok(())
