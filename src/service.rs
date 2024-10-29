@@ -22,9 +22,23 @@ fn toggle_hotspot(enable: bool) -> Result<(), Error> {
     let mut hotspot = WiFi::new(Some(config));
 
     if enable {
-        hotspot.create_hotspot("MARLIN", "M4rl!nB0x", None)?;
+        match hotspot.create_hotspot("MARLIN", "M4rl!nB0x", None) {
+            Ok(true) => info!("Hotspot enabled"),
+            Ok(false) => info!("Hotspot already enabled"),
+            Err(err) => {
+                error!("Failed to create hotspot: {err:?}");
+                return Err(Error::Wifi(err));
+            }
+        }
     } else {
-        hotspot.stop_hotspot()?;
+        match hotspot.stop_hotspot() {
+            Ok(true) => info!("Hotspot disabled"),
+            Ok(false) => info!("Hotspot already disabled"),
+            Err(err) => {
+                error!("Failed to stop hotspot: {err:?}");
+                return Err(Error::Wifi(err));
+            }
+        }
     }
 
     Ok(())
@@ -127,10 +141,8 @@ pub fn run(
                             }
                         }
                         Card::ToggleHotspot => {
-                            let msg = if hotspot_enabled { "disable" } else { "enable" };
-                            match toggle_hotspot(!hotspot_enabled) {
-                                Ok(()) => info!("hotspot {msg}d"),
-                                Err(err) => error!("Failed to {msg} hotspot: {err}"),
+                            if toggle_hotspot(!hotspot_enabled).is_err() {
+                                play_sound(&sink, FAILURE_SOUND);
                             }
                             if hotspot_enabled {
                                 match tx_manager_shutdown.send(()) {
