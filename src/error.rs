@@ -11,6 +11,14 @@ pub enum Error {
     Rusb(rusb::Error),
     Send(crossbeam_channel::SendError<Arc<str>>),
     MutexPoison,
+    Serialize(serde_json::Error),
+    Deserialize(serde_json::Error),
+}
+
+impl From<serde_json::Error> for Error {
+    fn from(err: serde_json::Error) -> Self {
+        Self::Serialize(err)
+    }
 }
 
 impl fmt::Debug for Error {
@@ -26,6 +34,8 @@ impl fmt::Debug for Error {
             Self::Rusb(err) => write!(f, "Rusb error: {err}"),
             Self::Send(err) => write!(f, "Send error: {err}"),
             Self::MutexPoison => write!(f, "Mutex poison error"),
+            Self::Serialize(err) => write!(f, "Serialize error: {err}"),
+            Self::Deserialize(err) => write!(f, "Deserialize error: {err}"),
         }
     }
 }
@@ -43,6 +53,8 @@ impl fmt::Display for Error {
             Self::Rusb(err) => write!(f, "Rusb error: {err}"),
             Self::Send(err) => write!(f, "Send error: {err}"),
             Self::MutexPoison => write!(f, "Mutex poison error"),
+            Self::Serialize(err) => write!(f, "Serialize error: {err}"),
+            Self::Deserialize(err) => write!(f, "Deserialize error: {err}"),
         }
     }
 }
