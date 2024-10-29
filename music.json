@@ -1,11 +1,12 @@
 {
-    "music": {
-        "27271E24211E1E26": {
-            "Play": "02 - Disturbed - Immortalized.mp3"
-        },
-        "27271E242121221F": "VolumeUp",
-        "27271E2420222321": {
-            "Play": "01-13 33 RPM.flac"
-        }
-    }
+  "music": {
+    "27271E24211E1E26": {
+      "Play": "02 - Disturbed - Immortalized.mp3"
+    },
+    "27271E2420222321": {
+      "Play": "01-13 33 RPM.flac"
+    },
+    "27271E242121221F": "ToggleHotspot",
+    "27271E1F231E2022": null
+  }
 }
